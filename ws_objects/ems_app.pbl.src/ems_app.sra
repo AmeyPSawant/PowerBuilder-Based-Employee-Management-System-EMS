@@ -14,6 +14,7 @@ global variables
 // Global Variables
 string gs_operation_mode
 string gs_employee_id
+integer li_department_id 
 end variables
 
 global type ems_app from application
@@ -25,6 +26,7 @@ global ems_app ems_app
 type prototypes
 
 end prototypes
+
 on ems_app.create
 appname = "ems_app"
 message = create message

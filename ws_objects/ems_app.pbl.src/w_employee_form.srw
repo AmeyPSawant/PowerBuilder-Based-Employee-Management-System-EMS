@@ -432,6 +432,90 @@ string facename = "Tahoma"
 string text = "Update"
 end type
 
+event clicked;// Update Employee Data when Update Button is Clicked
+IF Trim(employee_id_sle.Text) <> "" THEN
+    // Declare variables to hold updated employee data
+    long as_employee_id
+    string ls_first_name, ls_last_name, ls_email
+    decimal ld_salary
+
+
+	// Declare variables
+	string ls_department_name
+	
+	// Get the department name from the dropdown (DDL)
+	ls_department_name = Trim(department_ddl.Text)
+	
+	// Convert department name to corresponding ID
+	CHOOSE CASE ls_department_name
+		 CASE "Administration"
+			  li_department_id = 7
+		 CASE "Financial"
+			  li_department_id = 4
+		 CASE "Human Resources"
+			  li_department_id = 5
+		 CASE "IT"
+			  li_department_id = 2
+		 CASE "Logistics"
+			  li_department_id = 9
+		 CASE "Marketing"
+			  li_department_id = 3
+		 CASE "Production"
+			  li_department_id = 8
+		 CASE "Public Relations"
+			  li_department_id = 10
+		 CASE "R&D"
+			  li_department_id = 6
+		 CASE "Sales"
+			  li_department_id = 1
+		 CASE ELSE
+			  MessageBox("Error", "Invalid department name!")
+			  RETURN
+	END CHOOSE
+
+    // Convert the employee ID to a long
+    as_employee_id = Long(employee_id_sle.Text)
+    
+    // Assign updated values from UI fields
+    ls_first_name = Trim(first_name_sle.Text)
+    ls_last_name = Trim(last_name_sle.Text)
+    ls_email = Trim(email_sle.Text)
+	 
+   	// Convert input text from Single-Line Edit (SLE) to decimal
+	IF IsNumber(Trim(salary_sle.Text)) THEN
+		 ld_salary = Round(Dec(Trim(salary_sle.Text)), 2)  // Convert and round to 2 decimal places
+		 salary_sle.Text = String(ld_salary, "0.00")       // Format to always show 2 decimal places
+	ELSE
+		 MessageBox("Error", "Invalid salary input! Please enter a valid number.")
+	END IF
+
+    // Call the stored procedure using embedded SQL
+    DECLARE update_proc PROCEDURE FOR UpdateEmployee 
+        @EmployeeID = :as_employee_id,
+        @FirstName = :ls_first_name,
+        @LastName = :ls_last_name,
+        @Email = :ls_email,
+        @DepartmentID = :li_department_id,
+        @Salary = :ld_salary;
+
+    // Execute the stored procedure
+    EXECUTE update_proc;
+
+    // Check if the update was successful
+    IF SQLCA.SQLCode = 0 THEN
+        MessageBox("Success", "Employee details updated successfully!")
+    ELSE
+        MessageBox("Error", "Failed to update employee details. Please try again.")
+    END IF
+
+    // Close the procedure
+    CLOSE update_proc;
+ELSE
+    MessageBox("Error", "Please enter a valid Employee ID.")
+END IF
+
+end event
+
 type insert_btn from commandbutton within w_employee_form
 integer x = 1257
 integer y = 1080
@@ -461,9 +545,44 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
+boolean allowedit = true
 string item[] = {"Sales"," IT"," Marketing","Financial"," Human Resources","R&D","Administration","Production"," Logistics","Public Relations","Operations","Security"}
 borderstyle borderstyle = stylelowered!
 end type
+
+event selectionchanged;// Event: department_ddl SelectionChanged
+string ls_department_name
+
+// Get selected department name
+ls_department_name = Trim(department_ddl.Text)
+
+// Convert department name to corresponding ID
+CHOOSE CASE ls_department_name
+    CASE "Administration"
+        li_department_id = 7
+    CASE "Financial"
+        li_department_id = 4
+    CASE "Human Resources"
+        li_department_id = 5
+    CASE "IT"
+        li_department_id = 2
+    CASE "Logistics"
+        li_department_id = 9
+    CASE "Marketing"
+        li_department_id = 3
+    CASE "Production"
+        li_department_id = 8
+    CASE "Public Relations"
+        li_department_id = 10
+    CASE "R&D"
+        li_department_id = 6
+    CASE "Sales"
+        li_department_id = 1
+    CASE ELSE
+        MessageBox("Error", "Invalid department name!")
+        RETURN
+END CHOOSE
+end event
 
 type hire_date_dp from datepicker within w_employee_form
 integer x = 1815
