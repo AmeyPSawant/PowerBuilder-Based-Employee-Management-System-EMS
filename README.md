@@ -17,7 +17,7 @@ The **PowerBuilder Employee Management System (EMS)** is a desktop application d
 ## 🚀 Features  
 ✔️ **CRUD Operations:** Insert, Update, Delete, and View Employee Records  
 ✔️ **AWS RDS Integration:** Stores employee data securely in the cloud  
-✔️ **Advanced SQL Queries:** Efficient data manipulation and validation using **stored procedures** for inserting, updating, deleting, and retrieving employee records.
+✔️ **Advanced SQL Queries:** Efficient data handling via **stored procedures** for inserting, updating, deleting, and retrieving employee records
 ✔️ **Data Integrity & Validation:** Ensures accurate and secure data input  
 ✔️ **Source Control Integration:** Managed with Git  
 ✔️ **Unit Testing & Documentation:** Ensuring quality, maintainability, and versioning  
