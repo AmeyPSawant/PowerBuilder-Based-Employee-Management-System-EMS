@@ -226,6 +226,8 @@ CHOOSE CASE gs_operation_mode
         delete_btn.Enabled = False
         update_btn.Enabled = False
         insert_btn.Enabled = True
+		  
+	   
 
         // Fetch the latest Employee ID and auto-fill
         DECLARE get_last_id_proc PROCEDURE FOR GetLastEmployeeID;
@@ -235,6 +237,13 @@ CHOOSE CASE gs_operation_mode
 
         // Increment Employee ID for next entry
         employee_id_sle.Text = String(Long(employee_id_sle.Text) + 1)
+        first_name_sle.Text = ""
+      	last_name_sle.Text = ""
+      	email_sle.Text = ""
+      department_ddl.Text = ""
+      hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	  hire_date_dp.Value = DateTime(Today())
+       salary_sle.Text = ""
 
     CASE "DELETION"
         // Enable only employee_id field for deletion
@@ -357,7 +366,7 @@ IF Trim(employee_id_sle.Text) <> "" THEN
                    "Salary: " + ls_salary
 
 	// Display the combined message in a single MessageBox
-	MessageBox("Debug", ls_debug_message)
+	// MessageBox("Debug", ls_debug_message)
 	
     // Check if data was fetched successfully
     IF SQLCA.SQLCode = 0 THEN
@@ -640,8 +649,17 @@ IF SQLCA.SQLCode = 0 THEN
 	FETCH get_last_id_proc INTO :ll_employee_id;
 	CLOSE get_last_id_proc;
 	
-	 employee_id_sle.Text = String(ll_employee_id + 1)  // Increment for the new employee
-	
+	 employee_id_sle.Text = String(Long(employee_id_sle.Text) + 1)  // Increment for the new employee
+	 
+	 /*
+      first_name_sle.Text = ""
+      last_name_sle.Text = ""
+      email_sle.Text = ""
+      department_ddl.Text = ""
+      hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	  hire_date_dp.Value = DateTime(Today())
+       salary_sle.Text = ""
+	*/
 	
 ELSE
     MessageBox("Error", "Failed to add employee. Please try again.")
@@ -718,7 +736,7 @@ boolean allowedit = true
 string customformat = "mm/dd/yyy"
 date maxdate = Date("2025-03-11")
 date mindate = Date("1990-01-01")
-datetime value = DateTime(Date("2025-03-11"), Time("09:02:23.000000"))
+datetime value = DateTime(Date("2025-03-11"), Time("14:55:22.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
