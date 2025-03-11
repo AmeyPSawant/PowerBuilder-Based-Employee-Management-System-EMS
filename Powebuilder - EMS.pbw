@@ -1,4 +1,7 @@
 Save Format v3.0(19990112)
 @begin Targets
+ 0 "ems_app.pbt";
 @end;
+DefaultTarget "ems_app.pbt";
 DefaultExportEncode "UTF-8";
+DefaultRemoteTarget "ems_app.pbt";

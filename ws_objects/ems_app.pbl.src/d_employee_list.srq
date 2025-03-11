@@ -1,2 +1,0 @@
-﻿$PBExportHeader$d_employee_list.srq
-PBSELECT( VERSION(400) TABLE(NAME="dbo.employee" ) COLUMN(NAME="dbo.employee.employeeid") COLUMN(NAME="dbo.employee.firstname") COLUMN(NAME="dbo.employee.lastname") COLUMN(NAME="dbo.employee.email") COLUMN(NAME="dbo.employee.department") COLUMN(NAME="dbo.employee.hiredate") COLUMN(NAME="dbo.employee.salary")) 

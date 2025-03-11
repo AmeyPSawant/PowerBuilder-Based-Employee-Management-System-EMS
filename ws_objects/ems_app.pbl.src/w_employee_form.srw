@@ -2,35 +2,43 @@
 forward
 global type w_employee_form from window
 end type
-type cb_4 from commandbutton within w_employee_form
+type operation_mode_ddl from dropdownlistbox within w_employee_form
 end type
-type cb_3 from commandbutton within w_employee_form
+type st_8 from statictext within w_employee_form
 end type
-type cb_2 from commandbutton within w_employee_form
+type st_7 from statictext within w_employee_form
 end type
-type cb_1 from commandbutton within w_employee_form
+type employee_id_sle from singlelineedit within w_employee_form
 end type
-type ddlb_inp from dropdownlistbox within w_employee_form
+type view_btn from commandbutton within w_employee_form
 end type
-type dp_inp from datepicker within w_employee_form
+type delete_btn from commandbutton within w_employee_form
+end type
+type update_btn from commandbutton within w_employee_form
+end type
+type insert_btn from commandbutton within w_employee_form
+end type
+type department_ddl from dropdownlistbox within w_employee_form
+end type
+type hire_date_dp from datepicker within w_employee_form
 end type
 type st_6 from statictext within w_employee_form
 end type
-type salary_inp from singlelineedit within w_employee_form
+type salary_sle from singlelineedit within w_employee_form
 end type
 type st_5 from statictext within w_employee_form
 end type
 type st_4 from statictext within w_employee_form
 end type
-type email_inp from singlelineedit within w_employee_form
+type email_sle from singlelineedit within w_employee_form
 end type
 type st_3 from statictext within w_employee_form
 end type
 type st_2 from statictext within w_employee_form
 end type
-type lname_inp from singlelineedit within w_employee_form
+type last_name_sle from singlelineedit within w_employee_form
 end type
-type fname_inp from singlelineedit within w_employee_form
+type first_name_sle from singlelineedit within w_employee_form
 end type
 type dw_employee from datawindow within w_employee_form
 end type
@@ -39,8 +47,8 @@ end type
 end forward
 
 global type w_employee_form from window
-integer width = 3273
-integer height = 1964
+integer width = 4283
+integer height = 2248
 boolean titlebar = true
 string title = "w_employee_form"
 boolean controlmenu = true
@@ -50,88 +58,101 @@ boolean resizable = true
 long backcolor = 67108864
 string icon = "AppIcon!"
 boolean center = true
-cb_4 cb_4
-cb_3 cb_3
-cb_2 cb_2
-cb_1 cb_1
-ddlb_inp ddlb_inp
-dp_inp dp_inp
+operation_mode_ddl operation_mode_ddl
+st_8 st_8
+st_7 st_7
+employee_id_sle employee_id_sle
+view_btn view_btn
+delete_btn delete_btn
+update_btn update_btn
+insert_btn insert_btn
+department_ddl department_ddl
+hire_date_dp hire_date_dp
 st_6 st_6
-salary_inp salary_inp
+salary_sle salary_sle
 st_5 st_5
 st_4 st_4
-email_inp email_inp
+email_sle email_sle
 st_3 st_3
 st_2 st_2
-lname_inp lname_inp
-fname_inp fname_inp
+last_name_sle last_name_sle
+first_name_sle first_name_sle
 dw_employee dw_employee
 st_1 st_1
 end type
 global w_employee_form w_employee_form
 
 on w_employee_form.create
-this.cb_4=create cb_4
-this.cb_3=create cb_3
-this.cb_2=create cb_2
-this.cb_1=create cb_1
-this.ddlb_inp=create ddlb_inp
-this.dp_inp=create dp_inp
+this.operation_mode_ddl=create operation_mode_ddl
+this.st_8=create st_8
+this.st_7=create st_7
+this.employee_id_sle=create employee_id_sle
+this.view_btn=create view_btn
+this.delete_btn=create delete_btn
+this.update_btn=create update_btn
+this.insert_btn=create insert_btn
+this.department_ddl=create department_ddl
+this.hire_date_dp=create hire_date_dp
 this.st_6=create st_6
-this.salary_inp=create salary_inp
+this.salary_sle=create salary_sle
 this.st_5=create st_5
 this.st_4=create st_4
-this.email_inp=create email_inp
+this.email_sle=create email_sle
 this.st_3=create st_3
 this.st_2=create st_2
-this.lname_inp=create lname_inp
-this.fname_inp=create fname_inp
+this.last_name_sle=create last_name_sle
+this.first_name_sle=create first_name_sle
 this.dw_employee=create dw_employee
 this.st_1=create st_1
-this.Control[]={this.cb_4,&
-this.cb_3,&
-this.cb_2,&
-this.cb_1,&
-this.ddlb_inp,&
-this.dp_inp,&
+this.Control[]={this.operation_mode_ddl,&
+this.st_8,&
+this.st_7,&
+this.employee_id_sle,&
+this.view_btn,&
+this.delete_btn,&
+this.update_btn,&
+this.insert_btn,&
+this.department_ddl,&
+this.hire_date_dp,&
 this.st_6,&
-this.salary_inp,&
+this.salary_sle,&
 this.st_5,&
 this.st_4,&
-this.email_inp,&
+this.email_sle,&
 this.st_3,&
 this.st_2,&
-this.lname_inp,&
-this.fname_inp,&
+this.last_name_sle,&
+this.first_name_sle,&
 this.dw_employee,&
 this.st_1}
 end on
 
 on w_employee_form.destroy
-destroy(this.cb_4)
-destroy(this.cb_3)
-destroy(this.cb_2)
-destroy(this.cb_1)
-destroy(this.ddlb_inp)
-destroy(this.dp_inp)
+destroy(this.operation_mode_ddl)
+destroy(this.st_8)
+destroy(this.st_7)
+destroy(this.employee_id_sle)
+destroy(this.view_btn)
+destroy(this.delete_btn)
+destroy(this.update_btn)
+destroy(this.insert_btn)
+destroy(this.department_ddl)
+destroy(this.hire_date_dp)
 destroy(this.st_6)
-destroy(this.salary_inp)
+destroy(this.salary_sle)
 destroy(this.st_5)
 destroy(this.st_4)
-destroy(this.email_inp)
+destroy(this.email_sle)
 destroy(this.st_3)
 destroy(this.st_2)
-destroy(this.lname_inp)
-destroy(this.fname_inp)
+destroy(this.last_name_sle)
+destroy(this.first_name_sle)
 destroy(this.dw_employee)
 destroy(this.st_1)
 end on
 
 event open;// Step 1: Set connection parameters
 SQLCA.DBMS = "ODBC"
-/*SQLCA.Database = "AWS_RDS_EmployeeDB"
-SQLCA.LogId = "admin"
-SQLCA.LogPass = "AmeyPS$69!((6"*/
 SQLCA.AutoCommit = False
 SQLCA.DBParm = "ConnectString='DSN=AWS_RDS_EmployeeDB;UID=admin;PWD=AmeyPS$69!((6'"
 
@@ -143,30 +164,141 @@ IF SQLCA.SQLCode <> 0 THEN
     MessageBox("Connection Error", "Unable to connect to database: " + SQLCA.SQLErrText)
     RETURN
 END IF
-
-
-/*
-// Step 1: Set connection parameters (if not already set globally)
-SQLCA.DBMS = "ODBC"  // Or "ODBC" or "MSOLEDBSQL"
-SQLCA.LogId = "admin"  // Replace with dynamic input or external configuration
-SQLCA.LogPass = "AmeyPS$69!((6"  // Replace with dynamic input or external configuration
-SQLCA.ServerName = "ms-sql-server-db.cm9eyucu2mj4.us-east-1.rds.amazonaws.com"  // Replace with dynamic input or external configuration
-SQLCA.Database = "EmployeeDB"
-SQLCA.AutoCommit = False
-
-// Step 2: Connect to the database
-CONNECT USING SQLCA;
-
-// Step 3: Check if the connection was successful
-IF SQLCA.SQLCode <> 0 THEN
-    MessageBox("Connection Error", "Unable to connect to database: " + SQLCA.SQLErrText)
-    RETURN
-END IF*/
 end event
 
-type cb_4 from commandbutton within w_employee_form
-integer x = 1609
-integer y = 932
+type operation_mode_ddl from dropdownlistbox within w_employee_form
+integer x = 1815
+integer y = 32
+integer width = 1001
+integer height = 400
+integer taborder = 40
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+string item[] = {"INSERTION","UPDATION","DELETION"}
+borderstyle borderstyle = stylelowered!
+end type
+
+event selectionchanged;// Get the selected operation mode
+gs_operation_mode = operation_mode_ddl.Text
+
+// Enable/Disable fields and buttons based on the operation mode
+CHOOSE CASE gs_operation_mode
+    CASE "INSERTION"
+        // Enable all fields for insertion
+        employee_id_sle.Enabled = True
+        first_name_sle.Enabled = True
+        last_name_sle.Enabled = True
+        email_sle.Enabled = True
+        department_ddl.Enabled = True
+        hire_date_dp.Enabled = True
+        salary_sle.Enabled = True
+
+        // Disable delete and update buttons
+        delete_btn.Enabled = False
+        update_btn.Enabled = False
+        insert_btn.Enabled = True
+
+    CASE "DELETION"
+        // Enable only employee_id field for deletion
+        employee_id_sle.Enabled = True
+        first_name_sle.Enabled = False
+        last_name_sle.Enabled = False
+        email_sle.Enabled = False
+        department_ddl.Enabled = False
+        hire_date_dp.Enabled = False
+        salary_sle.Enabled = False
+
+        // Disable insert and update buttons
+        insert_btn.Enabled = False
+        update_btn.Enabled = False
+        delete_btn.Enabled = True
+
+    CASE "UPDATION"
+        // Enable all fields for updation
+        employee_id_sle.Enabled = True
+        first_name_sle.Enabled = True
+        last_name_sle.Enabled = True
+        email_sle.Enabled = True
+        department_ddl.Enabled = True
+        hire_date_dp.Enabled = True
+        salary_sle.Enabled = True
+
+        // Disable insert and delete buttons
+        insert_btn.Enabled = False
+        delete_btn.Enabled = False
+        update_btn.Enabled = True
+END CHOOSE
+end event
+
+type st_8 from statictext within w_employee_form
+integer x = 1253
+integer y = 40
+integer width = 549
+integer height = 64
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Operation Mode"
+boolean focusrectangle = false
+end type
+
+type st_7 from statictext within w_employee_form
+integer x = 1257
+integer y = 176
+integer width = 549
+integer height = 64
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+long backcolor = 67108864
+string text = "Employee Id"
+boolean focusrectangle = false
+end type
+
+type employee_id_sle from singlelineedit within w_employee_form
+integer x = 1815
+integer y = 156
+integer width = 1001
+integer height = 112
+integer taborder = 10
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Tahoma"
+long textcolor = 33554432
+borderstyle borderstyle = stylelowered!
+string placeholder = "First Name"
+end type
+
+event losefocus;/*// Fetch employee data if Employee ID is entered
+IF Trim(employee_id_sle.Text) <> "" THEN
+    // Call a function to fetch employee data
+    global FetchEmployeeData(Long(employee_id_sle.Text))
+END IF
+*/
+
+
+end event
+
+type view_btn from commandbutton within w_employee_form
+integer x = 2043
+integer y = 1212
 integer width = 750
 integer height = 112
 integer taborder = 50
@@ -186,9 +318,9 @@ IF dw_employee.Retrieve() = -1 THEN
 END IF
 end event
 
-type cb_3 from commandbutton within w_employee_form
-integer x = 832
-integer y = 932
+type delete_btn from commandbutton within w_employee_form
+integer x = 1266
+integer y = 1212
 integer width = 750
 integer height = 112
 integer taborder = 50
@@ -201,9 +333,9 @@ string facename = "Tahoma"
 string text = "Delete"
 end type
 
-type cb_2 from commandbutton within w_employee_form
-integer x = 1605
-integer y = 804
+type update_btn from commandbutton within w_employee_form
+integer x = 2039
+integer y = 1084
 integer width = 750
 integer height = 112
 integer taborder = 40
@@ -217,9 +349,9 @@ string facename = "Tahoma"
 string text = "Update"
 end type
 
-type cb_1 from commandbutton within w_employee_form
-integer x = 823
-integer y = 800
+type insert_btn from commandbutton within w_employee_form
+integer x = 1257
+integer y = 1080
 integer width = 750
 integer height = 112
 integer taborder = 40
@@ -230,12 +362,12 @@ fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
-string text = "Add"
+string text = "Insert"
 end type
 
-type ddlb_inp from dropdownlistbox within w_employee_form
-integer x = 1381
-integer y = 396
+type department_ddl from dropdownlistbox within w_employee_form
+integer x = 1815
+integer y = 676
 integer width = 1001
 integer height = 400
 integer taborder = 30
@@ -250,9 +382,9 @@ string item[] = {"Sales"," IT"," Marketing","Financial"," Human Resources","R&D"
 borderstyle borderstyle = stylelowered!
 end type
 
-type dp_inp from datepicker within w_employee_form
-integer x = 1381
-integer y = 520
+type hire_date_dp from datepicker within w_employee_form
+integer x = 1815
+integer y = 800
 integer width = 1001
 integer height = 100
 integer taborder = 40
@@ -262,7 +394,7 @@ boolean allowedit = true
 string customformat = "mm/dd/yyy"
 date maxdate = Date("2025-03-10")
 date mindate = Date("1990-01-01")
-datetime value = DateTime(Date("2025-03-10"), Time("18:41:51.000000"))
+datetime value = DateTime(Date("2025-03-10"), Time("22:35:23.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -274,8 +406,8 @@ boolean todaycircle = true
 end type
 
 type st_6 from statictext within w_employee_form
-integer x = 809
-integer y = 664
+integer x = 1243
+integer y = 944
 integer width = 549
 integer height = 64
 integer textsize = -10
@@ -290,9 +422,9 @@ string text = "Salary"
 boolean focusrectangle = false
 end type
 
-type salary_inp from singlelineedit within w_employee_form
-integer x = 1381
-integer y = 644
+type salary_sle from singlelineedit within w_employee_form
+integer x = 1815
+integer y = 924
 integer width = 1001
 integer height = 112
 integer taborder = 30
@@ -308,8 +440,8 @@ string placeholder = "Last Name"
 end type
 
 type st_5 from statictext within w_employee_form
-integer x = 805
-integer y = 536
+integer x = 1239
+integer y = 816
 integer width = 549
 integer height = 64
 integer textsize = -10
@@ -325,8 +457,8 @@ boolean focusrectangle = false
 end type
 
 type st_4 from statictext within w_employee_form
-integer x = 809
-integer y = 416
+integer x = 1243
+integer y = 696
 integer width = 549
 integer height = 64
 integer textsize = -10
@@ -341,9 +473,9 @@ string text = "Department"
 boolean focusrectangle = false
 end type
 
-type email_inp from singlelineedit within w_employee_form
-integer x = 1381
-integer y = 264
+type email_sle from singlelineedit within w_employee_form
+integer x = 1815
+integer y = 544
 integer width = 1001
 integer height = 112
 integer taborder = 20
@@ -359,8 +491,8 @@ string placeholder = "Last Name"
 end type
 
 type st_3 from statictext within w_employee_form
-integer x = 823
-integer y = 284
+integer x = 1257
+integer y = 564
 integer width = 549
 integer height = 64
 integer textsize = -10
@@ -376,8 +508,8 @@ boolean focusrectangle = false
 end type
 
 type st_2 from statictext within w_employee_form
-integer x = 823
-integer y = 156
+integer x = 1257
+integer y = 436
 integer width = 549
 integer height = 64
 integer textsize = -10
@@ -392,9 +524,9 @@ string text = "Last Name"
 boolean focusrectangle = false
 end type
 
-type lname_inp from singlelineedit within w_employee_form
-integer x = 1381
-integer y = 136
+type last_name_sle from singlelineedit within w_employee_form
+integer x = 1815
+integer y = 416
 integer width = 1001
 integer height = 112
 integer taborder = 10
@@ -409,9 +541,9 @@ borderstyle borderstyle = stylelowered!
 string placeholder = "Last Name"
 end type
 
-type fname_inp from singlelineedit within w_employee_form
-integer x = 1381
-integer y = 8
+type first_name_sle from singlelineedit within w_employee_form
+integer x = 1815
+integer y = 288
 integer width = 1001
 integer height = 112
 integer taborder = 10
@@ -427,9 +559,9 @@ string placeholder = "First Name"
 end type
 
 type dw_employee from datawindow within w_employee_form
-integer x = 18
-integer y = 1100
-integer width = 3214
+integer x = 27
+integer y = 1372
+integer width = 4183
 integer height = 732
 integer taborder = 10
 boolean enabled = false
@@ -440,8 +572,8 @@ borderstyle borderstyle = stylelowered!
 end type
 
 type st_1 from statictext within w_employee_form
-integer x = 823
-integer y = 28
+integer x = 1257
+integer y = 308
 integer width = 549
 integer height = 64
 integer textsize = -10
