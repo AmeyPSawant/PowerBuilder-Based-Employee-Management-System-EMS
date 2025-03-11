@@ -55,18 +55,13 @@ The **PowerBuilder Employee Management System (EMS)** is a desktop application d
 
 5. Open the project in PowerBuilder IDE, compile, and run the application.
 
-# 🌐 AWS RDS Integration
+## 🌐 AWS RDS Integration
 This project utilizes AWS RDS to store employee data securely in the cloud.
 
-# 📹 Demo Video
+## 📹 Demo
 Watch the demo video to see how the PowerBuilder EMS app integrates with AWS RDS for employee management.
 <img src="https://github.com/AmeyPSawant/PowerBuilder-Based-Employee-Management-System-EMS/blob/main/Media/Powerbuilder-EMS_demo.gif" width="600">
 
-# 💡 Important Notes
-- **Security:** Ensure that your AWS RDS connection credentials (username, password, endpoint) are kept secure and not exposed in public demos or repositories.
-- **Data Privacy:** Avoid including sensitive data in any screenshots or demos, and use placeholder values if needed.
-
-
-# 💡Important Notes
+## 💡 Important Notes
 - **Security:** Ensure that your AWS RDS connection credentials (username, password, endpoint) are kept secure and not exposed in public demos or repositories.
 - **Data Privacy:** Avoid including sensitive data in any screenshots or demos, and use placeholder values if needed.
