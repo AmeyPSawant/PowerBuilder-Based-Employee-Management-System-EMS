@@ -263,6 +263,15 @@ CHOOSE CASE gs_operation_mode
         insert_btn.Enabled = False
         update_btn.Enabled = False
         delete_btn.Enabled = True
+		  
+	// Reset the form
+		first_name_sle.Text = ""
+			last_name_sle.Text = ""
+			email_sle.Text = ""
+			department_ddl.Text = ""
+			hire_date_dp.CustomFormat = "mm/dd/yyyy"
+		  hire_date_dp.Value = DateTime(Today())
+			 salary_sle.Text = ""
 
     CASE "UPDATION"
         // Enable all fields for updation
@@ -642,7 +651,7 @@ EXECUTE insert_proc;
 
 // Check for successful insertion
 IF SQLCA.SQLCode = 0 THEN
-    MessageBox("Success", "Employee added successfully! Employee ID: " + String(ll_employee_id))
+    MessageBox("Success", "Employee added successfully!")
 	// Retrieve the last Employee ID using stored procedure
 	DECLARE get_last_id_proc PROCEDURE FOR GetLastEmployeeID;
 	EXECUTE get_last_id_proc;
@@ -651,7 +660,7 @@ IF SQLCA.SQLCode = 0 THEN
 	
 	 employee_id_sle.Text = String(Long(employee_id_sle.Text) + 1)  // Increment for the new employee
 	 
-	 /*
+	 
       first_name_sle.Text = ""
       last_name_sle.Text = ""
       email_sle.Text = ""
@@ -659,7 +668,7 @@ IF SQLCA.SQLCode = 0 THEN
       hire_date_dp.CustomFormat = "mm/dd/yyyy"
 	  hire_date_dp.Value = DateTime(Today())
        salary_sle.Text = ""
-	*/
+	
 	
 ELSE
     MessageBox("Error", "Failed to add employee. Please try again.")
