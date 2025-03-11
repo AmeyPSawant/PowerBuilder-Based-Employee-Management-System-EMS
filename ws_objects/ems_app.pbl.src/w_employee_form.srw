@@ -171,8 +171,12 @@ first_name_sle.Enabled = False
 last_name_sle.Enabled = False
 email_sle.Enabled = False
 department_ddl.Enabled = False
+hire_date_dp.CustomFormat = "mm/dd/yyyy"
+hire_date_dp.MaxDate = Today()
+hire_date_dp.Value = DateTime(Today())
 hire_date_dp.Enabled = False
 salary_sle.Enabled = False
+
 
 insert_btn.Enabled = False
 update_btn.Enabled = False
@@ -195,6 +199,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
+boolean sorted = false
 string item[] = {"INSERTION","UPDATION","DELETION"}
 borderstyle borderstyle = stylelowered!
 end type
@@ -206,27 +211,41 @@ gs_operation_mode = operation_mode_ddl.Text
 CHOOSE CASE gs_operation_mode
     CASE "INSERTION"
         // Enable all fields for insertion
-        employee_id_sle.Enabled = True
+        employee_id_sle.Enabled = False  // Employee ID is auto-filled
         first_name_sle.Enabled = True
         last_name_sle.Enabled = True
         email_sle.Enabled = True
         department_ddl.Enabled = True
+        hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	    hire_date_dp.Value = DateTime(Today())
         hire_date_dp.Enabled = True
         salary_sle.Enabled = True
- 	    dw_employee.Enabled = True
+        dw_employee.Enabled = True
 
         // Disable delete and update buttons
         delete_btn.Enabled = False
         update_btn.Enabled = False
         insert_btn.Enabled = True
 
+        // Fetch the latest Employee ID and auto-fill
+        DECLARE get_last_id_proc PROCEDURE FOR GetLastEmployeeID;
+        EXECUTE get_last_id_proc;
+        FETCH get_last_id_proc INTO :employee_id_sle.Text;
+        CLOSE get_last_id_proc;
+
+        // Increment Employee ID for next entry
+        employee_id_sle.Text = String(Long(employee_id_sle.Text) + 1)
+
     CASE "DELETION"
         // Enable only employee_id field for deletion
         employee_id_sle.Enabled = True
+	   employee_id_sle.Text = ""
         first_name_sle.Enabled = False
         last_name_sle.Enabled = False
         email_sle.Enabled = False
         department_ddl.Enabled = False
+        hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	    hire_date_dp.Value = DateTime(Today())
         hire_date_dp.Enabled = False
         salary_sle.Enabled = False
         dw_employee.Enabled = True
@@ -239,19 +258,23 @@ CHOOSE CASE gs_operation_mode
     CASE "UPDATION"
         // Enable all fields for updation
         employee_id_sle.Enabled = True
+	   employee_id_sle.Text = ""
         first_name_sle.Enabled = True
         last_name_sle.Enabled = True
         email_sle.Enabled = True
         department_ddl.Enabled = True
+        hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	    hire_date_dp.Value = DateTime(Today())
         hire_date_dp.Enabled = True
         salary_sle.Enabled = True
-	    dw_employee.Enabled = True
+        dw_employee.Enabled = True
 
         // Disable insert and delete buttons
         insert_btn.Enabled = False
         delete_btn.Enabled = False
         update_btn.Enabled = True
 END CHOOSE
+
 end event
 
 type st_8 from statictext within w_employee_form
@@ -411,6 +434,16 @@ EXECUTE SoftDeleteEmployee;
 
 IF SQLCA.SQLCode = 0 THEN
     MessageBox("Success", "Employee deleted successfully!")
+	employee_id_sle.Text = ""
+	first_name_sle.Text = ""
+	last_name_sle.Text = ""
+	email_sle.Text = ""
+	department_ddl.Text = ""
+	hire_date_dp.CustomFormat = "mm/dd/yyyy"
+	hire_date_dp.Value = DateTime(Today())
+	
+
+	salary_sle.Text = ""
 ELSE
     MessageBox("Error", "Failed to delete employee!")
 END IF
@@ -532,6 +565,93 @@ string facename = "Tahoma"
 string text = "Insert"
 end type
 
+event clicked;// Validate input fields
+IF Trim(first_name_sle.Text) = "" THEN
+    MessageBox("Error", "First Name is required.")
+    RETURN
+END IF
+
+IF Trim(last_name_sle.Text) = "" THEN
+    MessageBox("Error", "Last Name is required.")
+    RETURN
+END IF
+
+IF Trim(email_sle.Text) = "" OR NOT Pos(email_sle.Text, "@") > 0 THEN
+    MessageBox("Error", "Please enter a valid email address.")
+    RETURN
+END IF
+
+IF li_department_id = 0 THEN
+    MessageBox("Error", "Please select a valid department.")
+    RETURN
+END IF
+
+// Validate and format salary
+decimal ld_salary
+IF IsNumber(Trim(salary_sle.Text)) THEN
+    ld_salary = Round(Dec(Trim(salary_sle.Text)), 2) // Convert and round to 2 decimal places
+    salary_sle.Text = String(ld_salary, "0.00") // Format to always show 2 decimal places
+ELSE
+    MessageBox("Error", "Invalid salary input! Please enter a valid number.")
+    RETURN
+END IF
+
+// Validate hire date
+date ld_hire_date
+IF IsDate(hire_date_dp.Text) THEN
+    ld_hire_date = Date(hire_date_dp.Text)
+    
+    // Ensure hire date is not in the future
+    IF ld_hire_date > Today() THEN
+        MessageBox("Error", "Hire Date cannot be in the future.")
+        RETURN
+    END IF
+ELSE
+    MessageBox("Error", "Please enter a valid hire date.")
+    RETURN
+END IF
+
+// Declare variables for employee details
+string ls_first_name, ls_last_name, ls_email
+long ll_employee_id
+
+ls_first_name = Trim(first_name_sle.Text)
+ls_last_name = Trim(last_name_sle.Text)
+ls_email = Trim(email_sle.Text)
+
+// Insert new employee using stored procedure
+DECLARE insert_proc PROCEDURE FOR InsertEmployee
+    @FirstName = :ls_first_name,
+    @LastName = :ls_last_name,
+    @Email = :ls_email,
+    @DepartmentID = :li_department_id,
+    @HireDate = :ld_hire_date,
+    @Salary = :ld_salary;
+
+// Execute the insert procedure
+EXECUTE insert_proc;
+
+// Check for successful insertion
+IF SQLCA.SQLCode = 0 THEN
+    MessageBox("Success", "Employee added successfully! Employee ID: " + String(ll_employee_id))
+	// Retrieve the last Employee ID using stored procedure
+	DECLARE get_last_id_proc PROCEDURE FOR GetLastEmployeeID;
+	EXECUTE get_last_id_proc;
+	FETCH get_last_id_proc INTO :ll_employee_id;
+	CLOSE get_last_id_proc;
+	
+	 employee_id_sle.Text = String(ll_employee_id + 1)  // Increment for the new employee
+	
+	
+ELSE
+    MessageBox("Error", "Failed to add employee. Please try again.")
+END IF
+
+// Close the procedure
+CLOSE insert_proc;
+
+end event
+
 type department_ddl from dropdownlistbox within w_employee_form
 integer x = 1815
 integer y = 676
@@ -546,6 +666,8 @@ fontfamily fontfamily = swiss!
 string facename = "Tahoma"
 long textcolor = 33554432
 boolean allowedit = true
+boolean sorted = false
+boolean vscrollbar = true
 string item[] = {"Sales"," IT"," Marketing","Financial"," Human Resources","R&D","Administration","Production"," Logistics","Public Relations","Operations","Security"}
 borderstyle borderstyle = stylelowered!
 end type
@@ -594,7 +716,7 @@ boolean border = true
 borderstyle borderstyle = stylelowered!
 boolean allowedit = true
 string customformat = "mm/dd/yyy"
-date maxdate = Date("2025-03-10")
+date maxdate = Date("2025-03-11")
 date mindate = Date("1990-01-01")
 datetime value = DateTime(Date("2025-03-11"), Time("09:02:23.000000"))
 integer textsize = -10
