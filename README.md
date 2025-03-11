@@ -1,7 +1,7 @@
 # PowerBuilder Employee Management System (EMS)
 
 ## 📌 Project Overview  
-The **PowerBuilder Employee Management System (EMS)** is a desktop application designed to manage employee records efficiently. Built using **PowerBuilder 2012 R3**, it integrates with **AWS RDS** (Amazon Web Services Relational Database Service) for secure cloud storage and retrieval of employee data. The application implements **SQL queries** for data retrieval, validation, and management, offering a robust solution for employee record management.
+The **PowerBuilder Employee Management System (EMS)** is a desktop application designed to manage employee records efficiently. Built using **PowerBuilder 2022 R3**, it integrates with **AWS RDS** (Amazon Web Services Relational Database Service) for secure cloud storage and retrieval of employee data. The application implements **SQL queries** for data retrieval, validation, and management, offering a robust solution for employee record management.
 
 ### Key Highlights:
 - Integrated with **AWS RDS** for cloud-based database management.
