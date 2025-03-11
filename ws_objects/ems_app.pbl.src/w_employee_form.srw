@@ -305,14 +305,54 @@ borderstyle borderstyle = stylelowered!
 string placeholder = "First Name"
 end type
 
-event losefocus;/*// Fetch employee data if Employee ID is entered
+event losefocus;// Fetch employee data if Employee ID is entered
 IF Trim(employee_id_sle.Text) <> "" THEN
-    // Call a function to fetch employee data
-    global FetchEmployeeData(Long(employee_id_sle.Text))
+    // Declare variables to hold employee data
+    string ls_first_name, ls_last_name, ls_email, ls_department, ls_hire_date, ls_salary
+    long as_employee_id, employee_id
+
+    // Convert the employee ID to a long
+    as_employee_id = Long(employee_id_sle.Text)
+
+    // Call the stored procedure using embedded SQL
+    DECLARE emp_proc PROCEDURE FOR GetEmployeeByID @EmployeeID = :as_employee_id;
+
+    // Execute the stored procedure
+    EXECUTE emp_proc;
+
+    // Fetch the data into variables
+    FETCH emp_proc INTO :employee_id,:ls_first_name, :ls_last_name, :ls_email, :ls_department, :ls_hire_date, :ls_salary;
+	
+	// Combine all debug messages into a single string
+	string ls_debug_message
+	ls_debug_message = "Employee ID: " + String(as_employee_id) + "~r~n" + &
+                   "First Name: " + ls_first_name + "~r~n" + &
+                   "Last Name: " + ls_last_name + "~r~n" + &
+                   "Email: " + ls_email + "~r~n" + &
+                   "Department: " + ls_department + "~r~n" + &
+                   "Hire Date: " + ls_hire_date + "~r~n" + &
+                   "Salary: " + ls_salary
+
+	// Display the combined message in a single MessageBox
+	MessageBox("Debug", ls_debug_message)
+	
+    // Check if data was fetched successfully
+    IF SQLCA.SQLCode = 0 THEN
+        // Populate fields with fetched data
+        first_name_sle.Text = String(ls_first_name)
+        last_name_sle.Text = ls_last_name
+        email_sle.Text = ls_email
+        department_ddl.Text = ls_department
+        hire_date_dp.Value = DateTime(ls_hire_date)
+        salary_sle.Text = ls_salary
+    ELSE
+        // Show error message if no data was found
+        MessageBox("Error", "Employee not found!")
+    END IF
+
+    // Close the procedure
+    CLOSE emp_proc;
 END IF
-*/
-
-
 end event
 
 type view_btn from commandbutton within w_employee_form
@@ -437,7 +477,7 @@ boolean allowedit = true
 string customformat = "mm/dd/yyy"
 date maxdate = Date("2025-03-10")
 date mindate = Date("1990-01-01")
-datetime value = DateTime(Date("2025-03-11"), Time("00:43:34.000000"))
+datetime value = DateTime(Date("2025-03-11"), Time("09:02:23.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
