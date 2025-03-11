@@ -47,8 +47,8 @@ end type
 end forward
 
 global type w_employee_form from window
-integer width = 4283
-integer height = 2248
+integer width = 4352
+integer height = 2312
 boolean titlebar = true
 string title = "w_employee_form"
 boolean controlmenu = true
@@ -164,6 +164,22 @@ IF SQLCA.SQLCode <> 0 THEN
     MessageBox("Connection Error", "Unable to connect to database: " + SQLCA.SQLErrText)
     RETURN
 END IF
+
+// Disable all fields and buttons initially
+employee_id_sle.Enabled = False
+first_name_sle.Enabled = False
+last_name_sle.Enabled = False
+email_sle.Enabled = False
+department_ddl.Enabled = False
+hire_date_dp.Enabled = False
+salary_sle.Enabled = False
+
+insert_btn.Enabled = False
+update_btn.Enabled = False
+delete_btn.Enabled = False
+
+// Enable only the operation mode dropdown
+operation_mode_ddl.Enabled = True
 end event
 
 type operation_mode_ddl from dropdownlistbox within w_employee_form
@@ -197,6 +213,7 @@ CHOOSE CASE gs_operation_mode
         department_ddl.Enabled = True
         hire_date_dp.Enabled = True
         salary_sle.Enabled = True
+ 	    dw_employee.Enabled = True
 
         // Disable delete and update buttons
         delete_btn.Enabled = False
@@ -212,6 +229,7 @@ CHOOSE CASE gs_operation_mode
         department_ddl.Enabled = False
         hire_date_dp.Enabled = False
         salary_sle.Enabled = False
+        dw_employee.Enabled = True
 
         // Disable insert and update buttons
         insert_btn.Enabled = False
@@ -227,6 +245,7 @@ CHOOSE CASE gs_operation_mode
         department_ddl.Enabled = True
         hire_date_dp.Enabled = True
         salary_sle.Enabled = True
+	    dw_employee.Enabled = True
 
         // Disable insert and delete buttons
         insert_btn.Enabled = False
@@ -333,6 +352,30 @@ string facename = "Tahoma"
 string text = "Delete"
 end type
 
+event clicked;// Validate Employee ID
+IF Trim(employee_id_sle.Text) = "" THEN
+    MessageBox("Error", "Employee ID is required!")
+    RETURN
+END IF
+
+// Convert Employee ID to integer
+long ll_employee_id
+ll_employee_id = Long(employee_id_sle.Text)
+
+// Call the stored procedure for soft deletion
+DECLARE SoftDeleteEmployee PROCEDURE FOR SoftDeleteEmployee (
+    :ll_employee_id
+);
+
+EXECUTE SoftDeleteEmployee;
+
+IF SQLCA.SQLCode = 0 THEN
+    MessageBox("Success", "Employee deleted successfully!")
+ELSE
+    MessageBox("Error", "Failed to delete employee!")
+END IF
+end event
+
 type update_btn from commandbutton within w_employee_form
 integer x = 2039
 integer y = 1084
@@ -394,7 +437,7 @@ boolean allowedit = true
 string customformat = "mm/dd/yyy"
 date maxdate = Date("2025-03-10")
 date mindate = Date("1990-01-01")
-datetime value = DateTime(Date("2025-03-10"), Time("22:35:23.000000"))
+datetime value = DateTime(Date("2025-03-11"), Time("00:43:34.000000"))
 integer textsize = -10
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
@@ -561,12 +604,12 @@ end type
 type dw_employee from datawindow within w_employee_form
 integer x = 27
 integer y = 1372
-integer width = 4183
-integer height = 732
+integer width = 4261
+integer height = 800
 integer taborder = 10
-boolean enabled = false
 string title = "none"
 string dataobject = "d_employee_list"
+boolean vscrollbar = true
 boolean livescroll = true
 borderstyle borderstyle = stylelowered!
 end type
